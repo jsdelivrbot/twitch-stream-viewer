@@ -1,15 +1,35 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchTwitch } from '../actions/TwitchActions'
 import { FETCH_TWITCH_API } from '../actions/types'
+import {
+  fetchTwitch,
+  fetchChannelStatus
+} from '../actions/TwitchActions'
 
 class App extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchTwitch()
   }
 
+  componentDidUpdate() {
+    if (this.props.twitch) {
+      const userIds = this.props.twitch.map(user => user._id)
+      this.props.fetchChannelStatus(userIds)
+    }
+  }
+
   render() {
+    if (!this.props.twitch) {
+      return (
+        <div classNAme="row">
+          <div className="col-xs-12 text-xs-center">
+            <i className="fa fa-spinner fa-spin fa-4x" aria-hidden="true" />
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div>
         <ul className="twitch_list">
@@ -42,7 +62,8 @@ const mapStateToProps = ({ twitch }) => {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    fetchTwitch
+    fetchTwitch,
+    fetchChannelStatus
   }, dispatch)
 }
 
