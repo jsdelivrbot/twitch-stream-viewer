@@ -1,9 +1,51 @@
-.container { margin-top: 50px; }
-h1 { margin-bottom: 30px; }
+@import url('https://fonts.googleapis.com/css?family=Space+Mono');
+
+html,
+body {
+  background-color: #4c4c4c;
+  font-family: 'Space Mono', monospace;
+}
+
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: #926239;
+  margin-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: white;
+}
+
+.container { margin-top: 75px; }
+p  { font-size: 14px; }
+
+.channel-name,
+.online-status,
+.details {
+  font-size: 22px;
+  position: relative;
+  margin-top: 15px;
+}
+
+.details { font-size: initial; }
+.details:hover { cursor: pointer; }
+
+.online-status {
+  font-size: initial;
+  color: green;
+  font-weight: bold;
+  background-color: white;
+  padding: 2px;
+}
 
 .twitch_list {
   list-style-type: none;
   color: white;
+  margin: 0;
+  padding: 0;
 }
 
 .twitch_list li {
@@ -12,8 +54,24 @@ h1 { margin-bottom: 30px; }
   margin-bottom: 10px;
   padding: 15px;
   background-color: #6441a5;
-  border: 3px solid #d3d3d3;
 }
 
 .image-container { margin-bottom: 15px; }
-.image-container img { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+.image-container img {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 50px;
+  width: 50px;
+}
+
+@media only screen and (max-width: 768px) {
+  .online-status {
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+  }
+
+  .details {
+    text-align: center;
+  }
+}

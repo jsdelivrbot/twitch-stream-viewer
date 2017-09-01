@@ -13,16 +13,14 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.twitch) {
-      const userIds = this.props.twitch.map(user => user._id)
-      this.props.fetchChannelStatus(userIds)
-    }
+    if (this.props.twitch)
+      this.props.fetchChannelStatus(this.props.twitch.map(user => user._id))
   }
 
   render() {
     if (!this.props.twitch) {
       return (
-        <div classNAme="row">
+        <div className="row">
           <div className="col-xs-12 text-xs-center">
             <i className="fa fa-spinner fa-spin fa-4x" aria-hidden="true" />
           </div>
@@ -31,10 +29,12 @@ class App extends Component {
     }
 
     return (
-      <div>
-        <ul className="twitch_list">
-          {this.props.twitch.map(this.renderTwitchChannel)}
-        </ul>
+      <div className="row">
+        <div className="col-xs-12 col-md-8 col-centered">
+          <ul className="twitch_list">
+            {this.props.twitch.map(this.renderTwitchChannel)}
+          </ul>
+        </div>
       </div>
     )
   }
@@ -43,12 +43,17 @@ class App extends Component {
     return (
       <li key={channel['display_name']}>
         <div className="row">
-          <div className="image-container col-md-4 col-md-offset-2">
+          <div className="image-container col-md-3">
             <img className="img-fluid center-block" src={channel['logo']} />
           </div>
-          <div className="col-md-4">
-            <h3 className="text-xs-center text-md-left">{channel['display_name']}</h3>
-            <p className="text-xs-center text-md-left">{channel['bio']}</p>
+          <div className="col-md-3">
+            <h3 className="channel-name text-xs-center text-md-left">{channel['display_name']}</h3>
+          </div>
+          <div className="col-md-3">
+            <p className="online-status pull-right">Online!</p>
+          </div>
+          <div className="details col-md-3">
+            <a>Show Details</a>
           </div>
         </div>
       </li>

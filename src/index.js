@@ -13,7 +13,9 @@ const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore)
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <div>
-      <h1 className="text-xs-center">Twitch Streamers</h1>
+      <div className="header col-md-8 col-centered">
+        <h1 className="text-xs-center">Twitch Streamers</h1>
+      </div>
       <App />
     </div>
   </Provider>
