@@ -1,12 +1,12 @@
 import axios from 'axios'
 import {
-  FETCH_TWITCH_API,
+  FETCH_USERS,
   FETCH_CHANNEL_STATUS
 } from './types'
 
 const CLIENT_ID   = 'eyds7nq10ryxsahossrwpey6w6l3g4'
 const ROOT_URL    = 'https://api.twitch.tv/kraken'
-const CHANNELS    = ['freecodecamp', 'ESL_SC2', 'cretetion', 'habathcx', 'noobs2ninjas']
+const CHANNELS    = ['ESL_SC2', 'OgamingSC2', 'cretetion', 'freecodecamp', 'storbeck', 'habathcx', 'RobotCaleb', 'noobs2ninjas']
 
 const axiosInstance = axios.create({
   baseURL: ROOT_URL,
@@ -17,12 +17,12 @@ const axiosInstance = axios.create({
   }
 })
 
-export const fetchTwitch = () => {
+export const fetchUsers = () => {
   const concatenatedChannels = CHANNELS.join(',')
   const response = axiosInstance.get(`/users?login=${concatenatedChannels}`)
 
   return {
-    type: FETCH_TWITCH_API,
+    type: FETCH_USERS,
     payload: response
   }
 }

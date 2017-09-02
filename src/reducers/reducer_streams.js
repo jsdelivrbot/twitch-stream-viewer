@@ -1,12 +1,11 @@
 import {
-  FETCH_TWITCH_API
+  FETCH_CHANNEL_STATUS
 } from '../actions/types'
 
 export default (state = [], action) => {
-  console.log(action)
   switch (action.type) {
-    case FETCH_TWITCH_API:
-      return action.payload.data.users
+    case FETCH_CHANNEL_STATUS:
+      return action.payload.data.streams
   }
 
   return state

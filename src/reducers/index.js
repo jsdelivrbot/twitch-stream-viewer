@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
-import TwitchReducer from './reducer_twitch'
+import users from './reducer_users'
+import streams from './reducer_streams'
 
 export default combineReducers({
-  twitch: TwitchReducer
+  users,
+  streams
 })
 

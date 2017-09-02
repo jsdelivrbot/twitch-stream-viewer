@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { FETCH_TWITCH_API } from '../actions/types'
 import {
-  fetchTwitch,
+  fetchUsers,
   fetchChannelStatus
 } from '../actions/TwitchActions'
 
 class App extends Component {
-  componentDidMount() {
-    this.props.fetchTwitch()
+  constructor(props) {
+    super(props)
+    this.getStreamStatus = this.getStreamStatus.bind(this)
+    this.renderTwitchUser = this.renderTwitchUser.bind(this)
+  }
+
+  componentWillMount() {
+    this.props.fetchUsers()
   }
 
   componentDidUpdate() {
-    if (this.props.twitch)
-      this.props.fetchChannelStatus(this.props.twitch.map(user => user._id))
+    if (this.props.users && this.props.streams.length === 0)
+      this.props.fetchChannelStatus(this.props.users.map(user => user._id))
   }
 
   render() {
-    if (!this.props.twitch) {
+    if (!this.props.users) {
       return (
         <div className="row">
           <div className="col-xs-12 text-xs-center">
@@ -32,28 +37,35 @@ class App extends Component {
       <div className="row">
         <div className="col-xs-12 col-md-8 col-centered">
           <ul className="twitch_list">
-            {this.props.twitch.map(this.renderTwitchChannel)}
+            {this.props.users.map(this.renderTwitchUser)}
           </ul>
         </div>
       </div>
     )
   }
 
-  renderTwitchChannel(channel) {
+  getStreamStatus(userId) {
+    if (this.props.streams.length > 0) {
+      const status = this.props.streams.find(stream => stream.channel._id == userId)
+      if (status) return <p className="online-status pull-right"><a href={`https://www.twitch.tv/${status.channel['display_name']}`} target="_blank">Online!</a></p>
+      return <p className="offline-status pull-right">Offline</p>
+    } else {
+      return <p className="offline-status pull-right">Offline</p>
+    }
+  }
+
+  renderTwitchUser(user) {
     return (
-      <li key={channel['display_name']}>
+      <li key={user['display_name']}>
         <div className="row">
           <div className="image-container col-md-3">
-            <img className="img-fluid center-block" src={channel['logo']} />
+            <img className="img-fluid center-block" src={user['logo']} />
           </div>
           <div className="col-md-3">
-            <h3 className="channel-name text-xs-center text-md-left">{channel['display_name']}</h3>
+            <h3 className="user-name text-xs-center text-md-left">{user['display_name']}</h3>
           </div>
           <div className="col-md-3">
-            <p className="online-status pull-right">Online!</p>
-          </div>
-          <div className="details col-md-3">
-            <a>Show Details</a>
+            {this.getStreamStatus(user._id)}
           </div>
         </div>
       </li>
@@ -61,13 +73,16 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ twitch }) => {
-  return { twitch }
+const mapStateToProps = ({ users, streams }) => {
+  return {
+    users,
+    streams
+  }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    fetchTwitch,
+    fetchUsers,
     fetchChannelStatus
   }, dispatch)
 }
